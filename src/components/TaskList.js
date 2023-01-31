@@ -1,14 +1,19 @@
-import { Task } from "..//components/Task"
+import { Task } from "..//components/Task";
 
-export const TaskList = ({array}) =>{
-    return(<ul className="todo-list">
-        {array.map((elem, index)=>{
-            return (
-            <li key = {index}>
-             <Task newTask = {elem} />
-            </li>)
-           })}
-        
-        </ul>
-    )
-}
+export const TaskList = ({ array, deleteListItem, changeListStatus }) => {
+  return (
+    <ul className="todo-list">
+      {array.map((elem) => {
+        return (
+          <Task
+            newTask={elem}
+            key={elem.id}
+            id={elem.id}
+            deleteListItem={deleteListItem}
+            changeListStatus={changeListStatus}
+          />
+        );
+      })}
+    </ul>
+  );
+};

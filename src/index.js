@@ -4,22 +4,61 @@ import "./index.css";
 import { TaskList } from "./components/TaskList";
 import { Footer } from "./components/Footer";
 import { NewTaskForm } from "./components/NewTaskForm";
+// import {array} from "prop-types";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-//корневой элемент приложения
-//c помощью хука useState 
+
 const ToDoApp = () => {
-  const [toDo, setToDo] = useState(""); //опред. состояние инпута при введении - toDo, устанавливается ф-цией setToDo
-  const [arrayToDo, setToArray] = useState([]);//и 
+  const [toDo, setToDo] = useState(""); //c помощью хука useState опред. начальное состояние инпута и при введении - toDo, устанавливается ф-цией setToDo
+  const [arrayToDo, setToArray] = useState([]); //аналогично здесь буду помещать в массив значение инпута по нажатию на Enter, с помощью функции setToArray
 
   const addToArray = (event) => {
-    let newItem = toDo;
     if (event.key === "Enter") {
+      let listItem = {
+        id: arrayToDo.length + 1,
+        body: toDo,
+        status: "statusActive",
+        date: new Date(),
+      };
       event.preventDefault();
-      setToArray([...arrayToDo, newItem]);
+      setToArray([...arrayToDo, listItem]);
       setToDo("");
     }
   };
+
+  const deleteListItem = (idCheck) => {
+    setToArray([...arrayToDo.filter((elem) => elem.id !== idCheck)]);
+  };
+  const changeListStatus = (checkId) => {
+    setToArray([
+      ...arrayToDo.map((elem) => {
+        if (elem.id === checkId && elem.status === "statusActive") {
+          elem.status = "statusCompleted";
+        } else if (elem.id === checkId && elem.status === "statusCompleted") {
+          elem.status = "statusActive";
+        }
+        return elem;
+      }),
+    ]);
+  };
+  const clearCompleted = ()=>{
+    setToArray([...arrayToDo.filter((elem) => elem.status !== "statusCompleted")]);
+   }
+  const [filter, setFilter] = useState("all");
+  const changeFilter = (status) => {
+    setFilter(status);
+  };
+
+  let filteredArray = [...arrayToDo];
+  if (filter === "completed") {
+    
+    filteredArray = arrayToDo.filter(
+      (elem) => elem.status === "statusCompleted"
+    );
+  }
+  if (filter === "active") {
+    filteredArray = arrayToDo.filter((elem) => elem.status === "statusActive");
+  }
 
   return (
     <section className="todoapp">
@@ -27,14 +66,16 @@ const ToDoApp = () => {
         <h1>todos</h1>
       </header>
       <form>
-        <NewTaskForm
-setToDo = {setToDo} toDo = {toDo} addToArray = {addToArray}
-        />
+        <NewTaskForm setToDo={setToDo} toDo={toDo} addToArray={addToArray} />
       </form>
       <section className="main">
-        <TaskList array={arrayToDo} />
+        <TaskList
+          array={filteredArray}
+          deleteListItem={deleteListItem}
+          changeListStatus={changeListStatus}
+        />
       </section>
-      <Footer />
+      <Footer changeFilter={changeFilter} clearCompleted = {clearCompleted} array = {arrayToDo}/>
     </section>
   );
 };
