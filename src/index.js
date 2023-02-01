@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom/client'
+import { ReactDOM } from 'react-dom/client'
 import './index.css'
 import TaskList from './components/TaskList'
 import Footer from './components/Footer'
