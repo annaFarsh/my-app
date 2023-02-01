@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { ReactDOM } from 'react-dom/client'
+import * as ReactDOM from 'react-dom/client'
+
 import './index.css'
 import TaskList from './components/TaskList'
 import Footer from './components/Footer'
 import NewTaskForm from './components/NewTaskForm'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-
 const ToDoApp = () => {
     const [toDo, setToDo] = useState('') //c помощью хука useState опред. начальное состояние инпута и при введении - toDo, устанавливается ф-цией setToDo
     const [arrayToDo, setToArray] = useState([]) //аналогично здесь буду помещать в массив значение инпута по нажатию на Enter, с помощью функции setToArray
