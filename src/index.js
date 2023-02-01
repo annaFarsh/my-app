@@ -4,7 +4,7 @@ import "./index.css";
 import { TaskList } from "./components/TaskList";
 import { Footer } from "./components/Footer";
 import { NewTaskForm } from "./components/NewTaskForm";
-// import {array} from "prop-types";
+import {PropTypes} from "prop-types";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -19,6 +19,7 @@ const ToDoApp = () => {
         body: toDo,
         status: "statusActive",
         date: new Date(),
+        edit: false,
       };
       event.preventDefault();
       setToArray([...arrayToDo, listItem]);
@@ -41,6 +42,29 @@ const ToDoApp = () => {
       }),
     ]);
   };
+  const changeEdit = (checkId) =>{
+    setToArray([
+      ...arrayToDo.map((elem) => {
+        if (elem.id === checkId) {
+          elem.edit = true;
+        } 
+        return elem;
+      }),
+    ]);
+  }
+    const editListItem = (checkId, text) => {
+    setToArray([
+      ...arrayToDo.map((elem) => {
+        if (elem.id === checkId) {
+          elem.edit = false;
+          elem.body = text;
+
+        } 
+        return elem;
+      }),
+    ]);
+  };
+
   const clearCompleted = ()=>{
     setToArray([...arrayToDo.filter((elem) => elem.status !== "statusCompleted")]);
    }
@@ -51,7 +75,7 @@ const ToDoApp = () => {
 
   let filteredArray = [...arrayToDo];
   if (filter === "completed") {
-    
+
     filteredArray = arrayToDo.filter(
       (elem) => elem.status === "statusCompleted"
     );
@@ -66,13 +90,15 @@ const ToDoApp = () => {
         <h1>todos</h1>
       </header>
       <form>
-        <NewTaskForm setToDo={setToDo} toDo={toDo} addToArray={addToArray} />
+        <NewTaskForm setToDo={setToDo} toDo={toDo} addToArray={addToArray}/>
       </form>
       <section className="main">
         <TaskList
           array={filteredArray}
           deleteListItem={deleteListItem}
           changeListStatus={changeListStatus}
+          editListItem = {editListItem}
+          changeEdit = {changeEdit}
         />
       </section>
       <Footer changeFilter={changeFilter} clearCompleted = {clearCompleted} array = {arrayToDo}/>

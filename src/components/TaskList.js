@@ -1,6 +1,6 @@
 import { Task } from "..//components/Task";
 
-export const TaskList = ({ array, deleteListItem, changeListStatus }) => {
+export const TaskList = ({ array, deleteListItem, changeListStatus, editListItem, changeEdit }) => {
   return (
     <ul className="todo-list">
       {array.map((elem) => {
@@ -11,6 +11,8 @@ export const TaskList = ({ array, deleteListItem, changeListStatus }) => {
             id={elem.id}
             deleteListItem={deleteListItem}
             changeListStatus={changeListStatus}
+            editListItem = {editListItem}
+            changeEdit = {changeEdit}
           />
         );
       })}
