@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import Task from '..//components/Task'
+import Task from './Task'
 function TaskList({ array, deleteListItem, changeListStatus, editListItem, changeEdit }) {
     return (
         <ul className="todo-list">
