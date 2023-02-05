@@ -1,31 +1,25 @@
 import PropTypes from 'prop-types'
 function TaskFilter({ changeFilter, filter }) {
     return (
-        <ul className="filters">
-            <li>
-                <button className={filter === 'all' ? 'selected' : null} onClick={() => changeFilter('all')}>
-                    All
-                </button>
-            </li>
-            <li>
-                <button
-                    className={filter === 'active' ? 'selected' : null}
-                    onClick={() => {
-                        changeFilter('active')
-                    }}
-                >
-                    Active
-                </button>
-            </li>
-            <li>
-                <button
-                    className={filter === 'completed' ? 'selected' : null}
-                    onClick={() => changeFilter('completed')}
-                >
-                    Completed
-                </button>
-            </li>
-        </ul>
+        <div className="filters">
+            <label className={filter === 'all' ? 'selected' : null} onClick={() => changeFilter('all')}>
+                <input type="radio" />
+                All
+            </label>
+            <label
+                className={filter === 'active' ? 'selected' : null}
+                onClick={() => {
+                    changeFilter('active')
+                }}
+            >
+                <input type="radio" />
+                Active
+            </label>
+            <label className={filter === 'completed' ? 'selected' : null} onClick={() => changeFilter('completed')}>
+                <input type="radio"></input>
+                Completed
+            </label>
+        </div>
     )
 }
 TaskFilter.propTypes = {

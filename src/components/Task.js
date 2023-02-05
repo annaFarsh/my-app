@@ -4,50 +4,44 @@ import PropTypes from 'prop-types'
 function Task({ newTask, deleteListItem, id, changeListStatus, editListItem, changeEdit }) {
     const [editValue, setEditValue] = useState(newTask.body) //опять хук для сохранения и установки отредактированного li (по умолчанию - предыдущее значение)
 
-    let listItem
-    if (!newTask.edit) {
-        listItem = (
-            <div className="view">
-                <input
-                    id={id}
-                    className={newTask.status === 'statusCompleted' ? 'toggle checked' : 'toggle'}
-                    onClick={() => changeListStatus(id)}
-                    type="checkbox"
-                />
-                <label htmlFor={newTask.id}>
-                    <span className="description">{newTask.body}</span>
-                    <span className="created">
-                        {'created ' +
-                            formatDistanceToNow(newTask.date, {
-                                includeSeconds: true,
-                                addSuffix: true,
-                            })}
-                    </span>
-                </label>
-            </div>
-        )
-    } else if (newTask.edit) {
-        listItem = (
+    let listItem = (
+        <div className="view">
             <input
-                className="edit" //здесь остановилась
+                id={id}
+                className={newTask.status === 'statusCompleted' ? 'toggle checked' : 'toggle'}
+                onClick={() => changeListStatus(id)}
+                type="checkbox"
+            />
+            <label htmlFor={newTask.id}>
+                <span className="description">{newTask.body}</span>
+                <span className="created">
+                    {'created ' +
+                        formatDistanceToNow(newTask.date, {
+                            includeSeconds: true,
+                            addSuffix: true,
+                        })}
+                </span>
+            </label>
+        </div>
+    )
+
+    let listItemEdit = (
+        <form onSubmit={() => editListItem(id, editValue)}>
+            <input
+                className="edit"
                 id={id}
                 type="text"
                 onChange={(event) => {
                     setEditValue(event.target.value)
                 }}
                 value={editValue}
-                onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                        editListItem(id, editValue)
-                    }
-                }}
             />
-        )
-    }
+        </form>
+    )
 
     return (
         <li className={newTask.status === 'statusCompleted' ? 'completed' : 'active'}>
-            {listItem}
+            {newTask.edit ? listItemEdit : listItem}
             <button className="icon icon-edit" onClick={() => changeEdit(id)}></button>
             <button className="icon icon-destroy" onClick={() => deleteListItem(id)}></button>
         </li>
