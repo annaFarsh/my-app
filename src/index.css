@@ -184,16 +184,23 @@ input.edit {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 85px 15px 60px;
+    padding: 15px 15px 15px 60px;
 }
 
 .todo-list li label .created {
     font-size: 13px;
     color: gray;
+    max-width: 100px;
+    padding-left: 15px;
 }
 
-.todo-list li label .description {
+.todo-list li .view {
+    position: relative;
+}
+
+.todo-list li label .title {
     word-break: break-all;
+    width: 220px;
     display: block;
     line-height: 1.2;
     transition: color 0.4s;
@@ -207,14 +214,12 @@ input.edit {
 }
 
 .todo-list li .icon {
-    position: absolute;
-    top: 0;
+    margin-left: 5px;
     bottom: -3px;
     width: 30px;
     height: 40px;
     font-size: 34px;
     color: #cc9a9a;
-    margin: auto 0 11px;
     transition: color 0.2s ease-out;
     cursor: pointer;
 }
@@ -342,6 +347,79 @@ html .clear-completed:active {
 
 .info a:hover {
     text-decoration: underline;
+}
+.new-todo-form {
+    display: flex;
+    margin-bottom: 0;
+}
+
+.new-todo,
+.new-todo-form .new-todo-form__timer,
+.edit {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    color: inherit;
+    padding: 6px;
+    border: 1px solid #999;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.new-todo,
+.new-todo-form .new-todo-form__timer {
+    padding: 16px 16px 16px 60px;
+    border: none;
+    background: rgba(0, 0, 0, 0.003);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+}
+
+.new-todo {
+    width: 70%;
+}
+
+.new-todo-form .new-todo-form__timer {
+    width: 15%;
+    padding-left: 16px;
+}
+.todo-list li label .description {
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+    color: gray;
+}
+.todo-list li .icon-pause,
+.todo-list li .icon-play,
+.todo-list li .icon-stop {
+    position: relative;
+    font-size: 18px;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.todo-list li .icon-pause {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none'%3e%3cg stroke-linejoin='round' stroke-width='1.667' clip-path='url(%23a)'%3e%3cpath fill='%232F88FF' stroke='%23000' d='M10 18.333a8.333 8.333 0 1 0 0-16.666 8.333 8.333 0 0 0 0 16.666Z'/%3e%3cpath stroke='%23fff' stroke-linecap='round' d='M7.917 7.5v5M12.083 7.5v5'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='a'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e");
+    font-size: 15px;
+}
+.todo-list li .icon-stop {
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none'%3e%3cpath fill='%23000' fill-rule='evenodd' d='M10 18a8 8 0 1 0 0-16.001A8 8 0 0 0 10 18ZM8 7a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H8Z' clip-rule='evenodd'/%3e%3c/svg%3e");
+}
+
+.icon-play:after {
+    content: '▶';
+}
+.timer {
+    margin-top: 2px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
