@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
 import './index.css'
@@ -12,6 +12,7 @@ const ToDoApp = () => {
     const [arrayToDo, setToArray] = useState([])
     const [sec, setSec] = useState('')
     const [min, setMin] = useState('')
+
     const addToArray = (event) => {
         let listItem = {
             id: Date.now(),
@@ -19,6 +20,7 @@ const ToDoApp = () => {
             status: 'statusActive',
             date: new Date(),
             edit: false,
+            pause: true,
         }
         event.preventDefault()
         if (listItem.body.trim() !== '' && !isNaN(Number(sec)) && !isNaN(Number(min)) && Number(sec) <= 60) {
@@ -29,7 +31,46 @@ const ToDoApp = () => {
             setSec('')
             setMin('')
         }
-        console.log(arrayToDo)
+    }
+    function dropTime() {
+        setToArray([
+            ...arrayToDo.map((elem) => {
+                if (!elem.pause) {
+                    if (elem.sec >= 0 && elem.min >= 0) {
+                        elem.sec = elem.sec - 1
+                        if (elem.sec === 0) {
+                            elem.min = elem.min - 1
+                            elem.sec = 60
+                        }
+                        if (elem.sec === 0 && elem.min === 0) {
+                            elem.min = 0
+                            elem.sec = 0
+                        }
+                    }
+                }
+                return elem
+            }),
+        ])
+    }
+    function goTime(checkId) {
+        setToArray([
+            ...arrayToDo.map((elem) => {
+                if (elem.id === checkId) {
+                    elem.pause = false
+                }
+                return elem
+            }),
+        ])
+    }
+    function stopTime(checkId) {
+        setToArray([
+            ...arrayToDo.map((elem) => {
+                if (elem.id === checkId) {
+                    elem.pause = true
+                }
+                return elem
+            }),
+        ])
     }
     const deleteListItem = (idCheck) => {
         setToArray([...arrayToDo.filter((elem) => elem.id !== idCheck)])
@@ -83,6 +124,10 @@ const ToDoApp = () => {
     if (filter === 'active') {
         filteredArray = arrayToDo.filter((elem) => elem.status === 'statusActive')
     }
+    useEffect(() => {
+        const interval = setInterval(dropTime, 1000)
+        return () => clearInterval(interval)
+    })
     return (
         <section className="todoapp">
             <header className="header">
@@ -104,6 +149,8 @@ const ToDoApp = () => {
                     changeListStatus={changeListStatus}
                     editListItem={editListItem}
                     changeEdit={changeEdit}
+                    goTime={goTime}
+                    stopTime={stopTime}
                 />
             </section>
             <Footer changeFilter={changeFilter} clearCompleted={clearCompleted} array={arrayToDo} />
