@@ -1,32 +1,9 @@
 import { formatDistanceToNow } from 'date-fns'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import PropTypes from 'prop-types'
-function Task({ newTask, deleteListItem, id, changeListStatus, editListItem, changeEdit }) {
+function Task({ newTask, deleteListItem, id, changeListStatus, editListItem, changeEdit, goTime, stopTime }) {
     const [editValue, setEditValue] = useState(newTask.body)
-    const [pause, setPause] = useState(true)
-    const [minOneTask, setMinOneTask] = useState(newTask.min)
-    const [secOneTask, setSecOneTask] = useState(newTask.sec)
-
-    function dropTime() {
-        if (!pause) {
-            if (secOneTask >= 0 && minOneTask >= 0) {
-                setSecOneTask(secOneTask - 1)
-                if (secOneTask === 0) {
-                    setMinOneTask(minOneTask - 1)
-                    setSecOneTask(60)
-                }
-                if (secOneTask === 0 && minOneTask === 0) {
-                    setMinOneTask(0)
-                    setSecOneTask(0)
-                }
-            }
-        }
-    }
-    useEffect(() => {
-        const timer = setInterval(dropTime, 1000)
-        return () => clearInterval(timer)
-    }, [minOneTask, secOneTask, pause])
 
     let listItem = (
         <div className="view">
@@ -39,13 +16,18 @@ function Task({ newTask, deleteListItem, id, changeListStatus, editListItem, cha
             <label htmlFor={newTask.id}>
                 <span className="title">{newTask.body}</span>
                 <span className="description">
-                    <button onClick={() => setPause(false)} className="icon icon-play"></button>
                     <button
-                        onClick={() => setPause(true)}
-                        className={!pause ? 'icon icon-pause' : 'icon icon-stop'}
+                        onClick={() => {
+                            goTime(id)
+                        }}
+                        className="icon icon-play"
+                    ></button>
+                    <button
+                        onClick={() => stopTime(id)}
+                        className={!newTask.pause ? 'icon icon-pause' : 'icon icon-stop'}
                     ></button>
                     <span className="timer">
-                        {minOneTask}:{secOneTask}
+                        {newTask.min}:{newTask.sec}
                     </span>
                 </span>
 
@@ -92,12 +74,15 @@ Task.propTypes = {
         edit: PropTypes.bool,
         sec: PropTypes.number,
         min: PropTypes.number,
+        pause: PropTypes.bool,
     }),
     deleteListItem: PropTypes.func.isRequired,
     id: PropTypes.number,
     changeListStatus: PropTypes.func.isRequired,
     editListItem: PropTypes.func.isRequired,
     changeEdit: PropTypes.func.isRequired,
+    goTime: PropTypes.func.isRequired,
+    stopTime: PropTypes.func.isRequired,
 }
 
 export default Task

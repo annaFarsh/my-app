@@ -34,7 +34,7 @@ NewTaskForm.propTypes = {
     addToArray: PropTypes.func.isRequired,
     setSec: PropTypes.func.isRequired,
     setMin: PropTypes.func.isRequired,
-    sec: PropTypes.number,
-    min: PropTypes.number,
+    sec: PropTypes.string,
+    min: PropTypes.string,
 }
 export default NewTaskForm
