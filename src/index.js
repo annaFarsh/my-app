@@ -36,13 +36,17 @@ const ToDoApp = () => {
         setToArray([
             ...arrayToDo.map((elem) => {
                 if (!elem.pause) {
-                    if (elem.sec >= 0 && elem.min >= 0) {
-                        elem.sec = elem.sec - 1
-                        if (elem.sec === 0) {
+                    if (elem.min > 0) {
+                        if (elem.sec > 0) {
+                            elem.sec = elem.sec - 1
+                        } else if (elem.sec === 0) {
                             elem.min = elem.min - 1
-                            elem.sec = 60
+                            elem.sec = 59
                         }
-                        if (elem.sec === 0 && elem.min === 0) {
+                    } else if (elem.min === 0) {
+                        if (elem.sec > 0) {
+                            elem.sec = elem.sec - 1
+                        } else if (elem.sec === 0) {
                             elem.min = 0
                             elem.sec = 0
                         }
